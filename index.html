@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuestro menú</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🥐 NUESTRO MENÚ 🍹</h1>
+    <div class="meditation">
+      <img src="Med1.png" alt="Meditando" class="meditation-img">
+      <div class="planets-orbit">
+        <img src="P1.png" alt="P1" class="planet" data-popup="1">
+        <img src="P2.png" alt="P2" class="planet" data-popup="2">
+        <img src="P3.png" alt="P3" class="planet" data-popup="3">
+        <img src="P4.png" alt="P4" class="planet" data-popup="4">
+        <img src="P5.png" alt="P5" class="planet" data-popup="5">
+        <img src="P6.png" alt="P6" class="planet" data-popup="6">
+        <img src="P7.png" alt="P7" class="planet" data-popup="7">
+      </div>
+    </div>
+  </div>
+
+  <div id="popup" class="popup hidden">
+    <div class="popup-content">
+      <h2 id="popup-title"></h2>
+      <p id="popup-text"></p>
+      <div id="sudoku-container" class="hidden"></div>
+      <button id="popup-close">Aceptar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

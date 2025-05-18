@@ -1,0 +1,203 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background-color: #315659;
+  color: #fff;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  position: relative;
+}
+
+h1 {
+  margin-bottom: 50px;
+  font-size: 2rem;
+}
+
+.meditation {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.meditation-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+}
+
+.planets-orbit {
+  position: absolute;
+  top: 60%;
+  left: 58%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  /* Eliminamos la animación del contenedor */
+}
+
+.planet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 55px;
+  height: 55px;
+  margin: -27.5px; /* Centra correctamente el planeta (mitad de su tamaño) */
+  cursor: pointer;
+  transform-origin: center; /* Origen de transformación en el centro */
+  animation: orbit 20s linear infinite;
+}
+
+.planet:nth-child(1) { --angle: 0deg; }
+.planet:nth-child(2) { --angle: 51.43deg; }
+.planet:nth-child(3) { --angle: 102.86deg; }
+.planet:nth-child(4) { --angle: 154.29deg; }
+.planet:nth-child(5) { --angle: 205.71deg; }
+.planet:nth-child(6) { --angle: 257.14deg; }
+.planet:nth-child(7) { --angle: 308.57deg; }
+
+@keyframes orbit {
+  from {
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--angle)) 
+      translateX(120px) 
+      rotate(calc(-1 * var(--angle)));
+  }
+  to {
+    transform: 
+      translate(-50%, -50%) 
+      rotate(calc(var(--angle) + 360deg)) 
+      translateX(120px) 
+      rotate(calc(-1 * var(--angle) - 360deg));
+  }
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de todo */
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background-color: #d7bc77;
+  color: #000000; /* 🎨 Color de la letra (negro en este ejemplo) */
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 80%;
+  max-width: 400px;
+}
+
+#popup-close {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #315659;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#popup-close:hover {
+  background-color: #007acc;
+}
+
+#popup-text {
+  white-space: pre-line;
+}
+
+
+.tooltip {
+  position: absolute;
+  background-color: #000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+
+
+
+footer {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.footer-logo-container {
+  display: inline-block; /* Ajusta el contenedor al tamaño del contenido */
+  background-color: #fff; /* Fondo blanco */
+  padding: 10px; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para realzar */
+}
+
+.footer-logo {
+  width: 80px; /* Ajustar tamaño del logo */
+  opacity: 0.8;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.footer-logo:hover {
+  opacity: 1;
+}
+
+
+.sudoku-table {
+  border-collapse: collapse;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
+  background-color: #fff;
+  color: #333;
+}
+
+.sudoku-cell {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #999;
+  font-size: 1.2rem;
+}
+
+.sudoku-cell[contenteditable="true"] {
+  background-color: #f9f9f9;
+  color: #000;
+  cursor: pointer;
+}
+
+.sudoku-cell[contenteditable="true"]:focus {
+  outline: 2px solid #007acc;
+}
