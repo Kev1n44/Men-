@@ -8,7 +8,7 @@ body {
   min-height: 90vh;
   background-color: #315659;
   color: #fff;
-  overflow: hidden;
+  overflow: hidden; /* Dejamos el fondo fijo */
 }
 
 .container {
@@ -43,7 +43,6 @@ h1 {
   transform: translate(-50%, -50%);
   width: 300px;
   height: 300px;
-  /* Eliminamos la animación del contenedor */
 }
 
 .planet {
@@ -52,9 +51,9 @@ h1 {
   left: 50%;
   width: 55px;
   height: 55px;
-  margin: -27.5px; /* Centra correctamente el planeta (mitad de su tamaño) */
+  margin: -27.5px;
   cursor: pointer;
-  transform-origin: center; /* Origen de transformación en el centro */
+  transform-origin: center;
   animation: orbit 20s linear infinite;
 }
 
@@ -93,21 +92,24 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Asegura que esté por encima de todo */
+  z-index: 1000;
 }
 
 .popup.hidden {
   display: none;
 }
 
+/* 🔥 Corrección aquí */
 .popup-content {
   background-color: #d7bc77;
-  color: #000000; /* 🎨 Color de la letra (negro en este ejemplo) */
+  color: #000000;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
   width: 80%;
   max-width: 400px;
+  max-height: 80vh;       /* No pasa del 80% de la pantalla */
+  overflow-y: auto;       /* Scroll vertical si hay mucho contenido */
 }
 
 #popup-close {
@@ -128,7 +130,6 @@ h1 {
   white-space: pre-line;
 }
 
-
 .tooltip {
   position: absolute;
   background-color: #000;
@@ -145,9 +146,6 @@ h1 {
   opacity: 1;
 }
 
-
-
-
 footer {
   position: fixed;
   bottom: 10px;
@@ -157,15 +155,15 @@ footer {
 }
 
 .footer-logo-container {
-  display: inline-block; /* Ajusta el contenedor al tamaño del contenido */
-  background-color: #fff; /* Fondo blanco */
-  padding: 10px; /* Espaciado interno */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para realzar */
+  display: inline-block;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .footer-logo {
-  width: 80px; /* Ajustar tamaño del logo */
+  width: 80px;
   opacity: 0.8;
   transition: opacity 0.3s ease-in-out;
 }
@@ -173,7 +171,6 @@ footer {
 .footer-logo:hover {
   opacity: 1;
 }
-
 
 .sudoku-table {
   border-collapse: collapse;
