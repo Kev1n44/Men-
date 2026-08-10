@@ -8,7 +8,8 @@ body {
   min-height: 90vh;
   background-color: #315659;
   color: #fff;
-  overflow: hidden; /* Dejamos el fondo fijo */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .container {
@@ -26,6 +27,32 @@ h1 {
   width: 300px;
   height: 300px;
   margin: 0 auto;
+}
+
+.btn-adiciones {
+  margin-top: 28px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #315659;
+  background-color: #d7bc77;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-adiciones:hover {
+  background-color: #c4a55e;
+  transform: translateY(-1px);
+}
+
+.menu-sync-status {
+  font-size: 0.75rem;
+  opacity: 0.75;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .meditation-img {

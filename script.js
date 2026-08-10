@@ -2,7 +2,7 @@
  * Menú Gógoblu — carga productos disponibles desde Google Sheets (Apps Script)
  */
 const API_URL =
-  'https://script.google.com/macros/s/AKfycbwvYFRha5H0eCdVM65K3n0E0pRxrJOgyvaSCe9CirVEwL32o4bJ3tcmUr5iPOuldV3R/exec';
+  'https://script.google.com/macros/s/AKfycbyCpqWCLCLZcgj8m6ZZTk6ow9iReg0t_GfBkzUZbpZwU3owte8MnRpgZQRtVb9OgV5z/exec';
 
 const REFRESH_MS = 45000;
 
@@ -49,6 +49,13 @@ const planetMessages = {
   7: { title: TITULOS_PLANETA[7], text: '' }
 };
 
+let adicionesTexto = 'Cargando adiciones…';
+
+function esCategoriaAdicion(cat) {
+  const key = normalizar(cat);
+  return key === 'adicion' || key === 'adiciones';
+}
+
 function normalizar(t) {
   return String(t || '')
     .trim()
@@ -78,8 +85,13 @@ async function cargarMenuDesdeApi() {
     }
 
     const porPlaneta = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+    const adiciones = [];
 
     json.data.forEach(item => {
+      if (esCategoriaAdicion(item.categoria)) {
+        adiciones.push(item);
+        return;
+      }
       const key = normalizar(item.categoria);
       const pid = CATEGORIA_PLANETA[key];
       if (!pid) return;
@@ -93,6 +105,11 @@ async function cargarMenuDesdeApi() {
       planetMessages[id].text = formatearLista(porPlaneta[id]);
     });
 
+    adiciones.sort((a, b) =>
+      String(a.producto).localeCompare(String(b.producto), 'es')
+    );
+    adicionesTexto = formatearLista(adiciones);
+
     setEstadoMenu('Menú actualizado');
   } catch (err) {
     console.error('Error cargando menú:', err);
@@ -103,6 +120,9 @@ async function cargarMenuDesdeApi() {
           'No se pudo cargar el menú.\nRevisa la conexión e intenta de nuevo.';
       }
     });
+    if (adicionesTexto === 'Cargando adiciones…') {
+      adicionesTexto = 'No se pudieron cargar las adiciones.';
+    }
   }
 }
 
@@ -111,8 +131,7 @@ function setEstadoMenu(msg) {
   if (!el) {
     el = document.createElement('p');
     el.id = 'menu-sync-status';
-    el.style.cssText =
-      'font-size:0.75rem;opacity:0.75;margin-top:8px;text-align:center;';
+    el.className = 'menu-sync-status';
     const container = document.querySelector('.container');
     if (container) container.appendChild(el);
   }
@@ -216,6 +235,17 @@ planets.forEach(planet => {
     popup.classList.remove('hidden');
   });
 });
+
+const btnAdiciones = document.getElementById('btn-adiciones');
+if (btnAdiciones) {
+  btnAdiciones.addEventListener('click', () => {
+    sudokuContainer.classList.add('hidden');
+    sudokuContainer.innerHTML = '';
+    popupTitle.textContent = '➕ Adiciones';
+    popupText.textContent = adicionesTexto;
+    popup.classList.remove('hidden');
+  });
+}
 
 popupClose.addEventListener('click', () => {
   if (popupTitle.textContent === planetMessages[7].title) {
