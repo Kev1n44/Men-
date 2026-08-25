@@ -2,7 +2,7 @@
  * Menú Gógoblu — carga productos disponibles desde Google Sheets (Apps Script)
  */
 const API_URL =
-  'https://script.google.com/macros/s/AKfycbx3sV-LvH79D-xnA15rQ5YrxaoM-wfaQTp_Ohz21RgPMH9ubhk1vYbS7GBlyce27vE/exec';
+  'https://script.google.com/macros/s/AKfycbxEEUzerG6E2gylcn-QVqzkVQ39A3AK6CzkX5FfC1NR9sFT9W3D6UYl1P-PzrGVuHPN/exec';
 
 const REFRESH_MS = 45000;
 
