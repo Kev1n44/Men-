@@ -51,6 +51,53 @@ const planetMessages = {
 
 let adicionesTexto = 'Cargando adiciones…';
 
+const INSTRUCTIVOS = [
+  { nombre: 'Ajedrez', archivo: 'Instructivos/Ajedrez/ajedrez.html' },
+  { nombre: 'Astucia naval', archivo: 'Instructivos/Astucia naval/astucia_naval.html' },
+  { nombre: 'Azul', archivo: 'Instructivos/Azul/azul.html' },
+  { nombre: 'Bandido', archivo: 'Instructivos/Bandido/bandido.html' },
+  { nombre: 'Basta 2.0', archivo: 'Instructivos/Basta 2.0/basta_2.html' },
+  { nombre: 'Cabo', archivo: 'Instructivos/Cabo/cabo.html' },
+  { nombre: 'Carcassonne', archivo: 'Instructivos/Carcassonne/carcassonne.html' },
+  { nombre: 'Cards vs Gravity', archivo: 'Instructivos/Cards vs Gravity/cards_vs_gravity.html' },
+  { nombre: 'Catán', archivo: 'Instructivos/Catán/catan.html' },
+  { nombre: 'Cranium', archivo: 'Instructivos/Cranium/cranium.html' },
+  { nombre: 'Dominó', archivo: 'Instructivos/Dominó/domino.html' },
+  { nombre: 'Dos', archivo: 'Instructivos/Dos/dos.html' },
+  { nombre: 'Exploding Kittens', archivo: 'Instructivos/Exploding Kittens/exploding_kittens.html' },
+  { nombre: 'Fantasma Blitz', archivo: 'Instructivos/Fantasma Blitz/fantasma_blitz.html' },
+  { nombre: 'Flip 7', archivo: 'Instructivos/Flip 7/flip_7.html' },
+  { nombre: 'GoTown', archivo: 'Instructivos/GoTown/gotown.html' },
+  { nombre: 'Hues and Cues', archivo: 'Instructivos/Hues and Cues/hues_and_cues.html' },
+  { nombre: 'Jenga', archivo: 'Instructivos/Jenga/jenga.html' },
+  { nombre: 'Kingdomino', archivo: 'Instructivos/Kingdomino/kingdomino.html' },
+  { nombre: 'Kollide', archivo: 'Instructivos/Kollide/kollide.html' },
+  { nombre: 'Looping Plane', archivo: 'Instructivos/Looping Plane/looping_plane.html' },
+  { nombre: 'Monopoly en cartas', archivo: 'Instructivos/Monopoly en cartas/monopoly_en_cartas.html' },
+  { nombre: 'Munchkin Apocalypse', archivo: 'Instructivos/Munchkin Apocalypse/munchkin_apocalypse.html' },
+  { nombre: 'Parqués', archivo: 'Instructivos/Parqués/parques.html' },
+  { nombre: 'Pictionary', archivo: 'Instructivos/Pictionary/pictionary.html' },
+  { nombre: 'Polilla tramposa', archivo: 'Instructivos/Polilla tramposa/polilla_tramposa.html' },
+  { nombre: 'Póker de insectos', archivo: 'Instructivos/Póker de insectos/poker_de_insectos.html' },
+  { nombre: 'Quién soy', archivo: 'Instructivos/Quién soy/quien_soy.html' },
+  { nombre: 'Risk', archivo: 'Instructivos/Risk/risk.html' },
+  { nombre: 'Rummy Q', archivo: 'Instructivos/Rummy Q/rummy_q.html' },
+  { nombre: 'Scrabble', archivo: 'Instructivos/Scrabble/scrabble.html' },
+  { nombre: 'Sleeping Queens', archivo: 'Instructivos/Sleeping Queens/sleeping_queens.html' },
+  { nombre: 'Sling Hockey', archivo: 'Instructivos/Sling Hockey/sling_hockey.html' },
+  { nombre: 'Spot It', archivo: 'Instructivos/Spot It/spot_it.html' },
+  { nombre: 'Sushi Go', archivo: 'Instructivos/Sushi Go/sushi_go.html' },
+  { nombre: 'Taco, gato, cabra, queso, pizza', archivo: 'Instructivos/Taco, gato, cabra, queso, pizza/taco_gato_cabra_queso_pizza.html' },
+  { nombre: 'Take 6', archivo: 'Instructivos/Take 6/take_6.html' },
+  { nombre: 'The Mind', archivo: 'Instructivos/The Mind/the_mind.html' },
+  { nombre: 'Ticket to Ride Europe', archivo: 'Instructivos/Ticket to Ride Europe/ticket_to_ride_europe.html' },
+  { nombre: 'Tinderblox', archivo: 'Instructivos/Tinderblox/tinderblox.html' },
+  { nombre: 'Triki', archivo: 'Instructivos/Triki/triki.html' },
+  { nombre: 'Trivialista', archivo: 'Instructivos/Trivialista/trivialista.html' },
+  { nombre: 'Uno', archivo: 'Instructivos/Uno/uno.html' },
+  { nombre: 'Virus', archivo: 'Instructivos/Virus/virus.html' }
+].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }));
+
 function esCategoriaAdicion(cat) {
   const key = normalizar(cat);
   return key === 'adicion' || key === 'adiciones';
@@ -140,11 +187,26 @@ function setEstadoMenu(msg) {
 
 // —— UI existente ——
 const popup = document.getElementById('popup');
+const popupContent = document.querySelector('.popup-content');
 const popupTitle = document.getElementById('popup-title');
 const popupText = document.getElementById('popup-text');
 const popupClose = document.getElementById('popup-close');
 const sudokuContainer = document.getElementById('sudoku-container');
+const instructivosLista = document.getElementById('instructivos-lista');
+const instructivoFrame = document.getElementById('instructivo-frame');
+const instructivoVolver = document.getElementById('instructivo-volver');
 const planets = document.querySelectorAll('.planet');
+
+function prepararPopupBase() {
+  sudokuContainer.classList.add('hidden');
+  sudokuContainer.innerHTML = '';
+  instructivosLista.classList.add('hidden');
+  instructivoFrame.classList.add('hidden');
+  instructivoFrame.removeAttribute('src');
+  instructivoVolver.classList.add('hidden');
+  popupContent.classList.remove('popup-content--lectura');
+  popupText.classList.remove('hidden');
+}
 
 function generateRandomSudoku() {
   const base = [
@@ -218,11 +280,42 @@ function validateSudoku(container) {
   );
 }
 
+function renderListaInstructivos() {
+  instructivosLista.innerHTML = '';
+  INSTRUCTIVOS.forEach(item => {
+    const boton = document.createElement('button');
+    boton.type = 'button';
+    boton.className = 'instructivo-item';
+    boton.textContent = '- ' + item.nombre;
+    boton.addEventListener('click', () => abrirInstructivo(item));
+    instructivosLista.appendChild(boton);
+  });
+}
+
+function abrirListaInstructivos() {
+  prepararPopupBase();
+  popupTitle.textContent = '📖 Instructivos';
+  popupText.textContent = 'Toca un juego para ver cómo se juega.';
+  renderListaInstructivos();
+  instructivosLista.classList.remove('hidden');
+  popup.classList.remove('hidden');
+}
+
+function abrirInstructivo(item) {
+  popupTitle.textContent = item.nombre;
+  popupText.classList.add('hidden');
+  instructivosLista.classList.add('hidden');
+  popupContent.classList.add('popup-content--lectura');
+  instructivoFrame.classList.remove('hidden');
+  instructivoVolver.classList.remove('hidden');
+  instructivoFrame.title = 'Instructivo de ' + item.nombre;
+  instructivoFrame.src = encodeURI(item.archivo);
+}
+
 planets.forEach(planet => {
   planet.addEventListener('click', () => {
     const id = planet.dataset.popup;
-    sudokuContainer.classList.add('hidden');
-    if (id !== '7') sudokuContainer.innerHTML = '';
+    prepararPopupBase();
 
     popupTitle.textContent = planetMessages[id].title;
     if (id === '7') {
@@ -239,12 +332,20 @@ planets.forEach(planet => {
 const btnAdiciones = document.getElementById('btn-adiciones');
 if (btnAdiciones) {
   btnAdiciones.addEventListener('click', () => {
-    sudokuContainer.classList.add('hidden');
-    sudokuContainer.innerHTML = '';
+    prepararPopupBase();
     popupTitle.textContent = '➕ Adiciones';
     popupText.textContent = adicionesTexto;
     popup.classList.remove('hidden');
   });
+}
+
+const btnInstructivos = document.getElementById('btn-instructivos');
+if (btnInstructivos) {
+  btnInstructivos.addEventListener('click', abrirListaInstructivos);
+}
+
+if (instructivoVolver) {
+  instructivoVolver.addEventListener('click', abrirListaInstructivos);
 }
 
 popupClose.addEventListener('click', () => {
@@ -252,11 +353,13 @@ popupClose.addEventListener('click', () => {
     if (validateSudoku(sudokuContainer)) {
       alert('¡Buen trabajo!');
       popup.classList.add('hidden');
+      prepararPopupBase();
     } else {
       alert('Síguelo intentando');
     }
   } else {
     popup.classList.add('hidden');
+    prepararPopupBase();
   }
 });
 

@@ -29,8 +29,16 @@ h1 {
   margin: 0 auto;
 }
 
-.btn-adiciones {
+.menu-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 28px;
+}
+
+.btn-adiciones {
+  margin-top: 0;
   padding: 8px 18px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -122,6 +130,10 @@ h1 {
   z-index: 1000;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .popup.hidden {
   display: none;
 }
@@ -139,8 +151,17 @@ h1 {
   overflow-y: auto;       /* Scroll vertical si hay mucho contenido */
 }
 
-#popup-close {
+.popup-actions {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#popup-close,
+#instructivo-volver {
+  margin-top: 0;
   padding: 10px 20px;
   border: none;
   background-color: #315659;
@@ -149,8 +170,52 @@ h1 {
   cursor: pointer;
 }
 
-#popup-close:hover {
+#popup-close:hover,
+#instructivo-volver:hover {
   background-color: #007acc;
+}
+
+.instructivos-lista {
+  margin-top: 4px;
+}
+
+.instructivo-item {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.45;
+  text-align: center;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.instructivo-item:hover {
+  text-decoration: underline;
+}
+
+.popup-content--lectura {
+  display: flex;
+  flex-direction: column;
+  width: 94%;
+  max-width: 520px;
+  height: 92vh;
+  max-height: 92vh;
+  overflow: hidden;
+}
+
+.instructivo-frame {
+  display: block;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #f7f4e9;
 }
 
 #popup-text {

@@ -22,7 +22,10 @@
       </div>
     </div>
 
-    <button type="button" id="btn-adiciones" class="btn-adiciones">Adiciones</button>
+    <div class="menu-actions">
+      <button type="button" id="btn-adiciones" class="btn-adiciones">Adiciones</button>
+      <button type="button" id="btn-instructivos" class="btn-adiciones">Instructivos</button>
+    </div>
     <p id="menu-sync-status" class="menu-sync-status"></p>
   </div>
 
@@ -31,7 +34,12 @@
       <h2 id="popup-title"></h2>
       <p id="popup-text"></p>
       <div id="sudoku-container" class="hidden"></div>
-      <button id="popup-close">Aceptar</button>
+      <div id="instructivos-lista" class="instructivos-lista hidden"></div>
+      <iframe id="instructivo-frame" class="instructivo-frame hidden" title="Instructivo del juego"></iframe>
+      <div class="popup-actions">
+        <button type="button" id="instructivo-volver" class="hidden">Volver</button>
+        <button id="popup-close">Aceptar</button>
+      </div>
     </div>
   </div>
 
