@@ -284,7 +284,7 @@ function mostrarListaInstructivos() {
   quitarInstructivo();
   sudokuContainer.classList.add('hidden');
   sudokuContainer.innerHTML = '';
-  popupTitle.textContent = '📖 Instructivos';
+  popupTitle.textContent = '📖 Instrucciones de juegos';
   popupText.textContent = '';
   const lista = document.createElement('div');
   lista.id = 'instructivos-lista';
