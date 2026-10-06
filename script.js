@@ -192,20 +192,20 @@ const popupTitle = document.getElementById('popup-title');
 const popupText = document.getElementById('popup-text');
 const popupClose = document.getElementById('popup-close');
 const sudokuContainer = document.getElementById('sudoku-container');
-const instructivosLista = document.getElementById('instructivos-lista');
-const instructivoFrame = document.getElementById('instructivo-frame');
-const instructivoVolver = document.getElementById('instructivo-volver');
 const planets = document.querySelectorAll('.planet');
+let viendoInstructivo = false;
 
-function prepararPopupBase() {
-  sudokuContainer.classList.add('hidden');
-  sudokuContainer.innerHTML = '';
-  instructivosLista.classList.add('hidden');
-  instructivoFrame.classList.add('hidden');
-  instructivoFrame.removeAttribute('src');
-  instructivoVolver.classList.add('hidden');
-  popupContent.classList.remove('popup-content--lectura');
-  popupText.classList.remove('hidden');
+function quitarInstructivo() {
+  viendoInstructivo = false;
+  popupContent.classList.remove('viendo-instructivo');
+  const lista = document.getElementById('instructivos-lista');
+  if (lista) lista.remove();
+  const frame = document.getElementById('instructivo-frame');
+  if (frame) {
+    frame.removeAttribute('src');
+    frame.remove();
+  }
+  popupClose.textContent = 'Aceptar';
 }
 
 function generateRandomSudoku() {
@@ -280,42 +280,51 @@ function validateSudoku(container) {
   );
 }
 
-function renderListaInstructivos() {
-  instructivosLista.innerHTML = '';
+function mostrarListaInstructivos() {
+  quitarInstructivo();
+  sudokuContainer.classList.add('hidden');
+  sudokuContainer.innerHTML = '';
+  popupTitle.textContent = '📖 Instructivos';
+  popupText.textContent = '';
+  const lista = document.createElement('div');
+  lista.id = 'instructivos-lista';
+  lista.className = 'instructivos-lista';
   INSTRUCTIVOS.forEach(item => {
     const boton = document.createElement('button');
     boton.type = 'button';
     boton.className = 'instructivo-item';
     boton.textContent = '- ' + item.nombre;
     boton.addEventListener('click', () => abrirInstructivo(item));
-    instructivosLista.appendChild(boton);
+    lista.appendChild(boton);
   });
-}
-
-function abrirListaInstructivos() {
-  prepararPopupBase();
-  popupTitle.textContent = '📖 Instructivos';
-  popupText.textContent = 'Toca un juego para ver cómo se juega.';
-  renderListaInstructivos();
-  instructivosLista.classList.remove('hidden');
+  popupClose.before(lista);
   popup.classList.remove('hidden');
 }
 
 function abrirInstructivo(item) {
+  const lista = document.getElementById('instructivos-lista');
+  if (lista) lista.remove();
   popupTitle.textContent = item.nombre;
-  popupText.classList.add('hidden');
-  instructivosLista.classList.add('hidden');
-  popupContent.classList.add('popup-content--lectura');
-  instructivoFrame.classList.remove('hidden');
-  instructivoVolver.classList.remove('hidden');
-  instructivoFrame.title = 'Instructivo de ' + item.nombre;
-  instructivoFrame.src = encodeURI(item.archivo);
+  popupText.textContent = 'Cargando instructivo…';
+  popupContent.classList.add('viendo-instructivo');
+  const frame = document.createElement('iframe');
+  frame.id = 'instructivo-frame';
+  frame.title = 'Instructivo de ' + item.nombre;
+  frame.addEventListener('load', () => {
+    popupText.textContent = '';
+  });
+  frame.src = encodeURI(item.archivo);
+  popupClose.before(frame);
+  popupClose.textContent = 'Volver';
+  viendoInstructivo = true;
 }
 
 planets.forEach(planet => {
   planet.addEventListener('click', () => {
     const id = planet.dataset.popup;
-    prepararPopupBase();
+    quitarInstructivo();
+    sudokuContainer.classList.add('hidden');
+    if (id !== '7') sudokuContainer.innerHTML = '';
 
     popupTitle.textContent = planetMessages[id].title;
     if (id === '7') {
@@ -332,7 +341,9 @@ planets.forEach(planet => {
 const btnAdiciones = document.getElementById('btn-adiciones');
 if (btnAdiciones) {
   btnAdiciones.addEventListener('click', () => {
-    prepararPopupBase();
+    quitarInstructivo();
+    sudokuContainer.classList.add('hidden');
+    sudokuContainer.innerHTML = '';
     popupTitle.textContent = '➕ Adiciones';
     popupText.textContent = adicionesTexto;
     popup.classList.remove('hidden');
@@ -341,25 +352,23 @@ if (btnAdiciones) {
 
 const btnInstructivos = document.getElementById('btn-instructivos');
 if (btnInstructivos) {
-  btnInstructivos.addEventListener('click', abrirListaInstructivos);
-}
-
-if (instructivoVolver) {
-  instructivoVolver.addEventListener('click', abrirListaInstructivos);
+  btnInstructivos.addEventListener('click', mostrarListaInstructivos);
 }
 
 popupClose.addEventListener('click', () => {
+  if (viendoInstructivo) {
+    mostrarListaInstructivos();
+    return;
+  }
   if (popupTitle.textContent === planetMessages[7].title) {
     if (validateSudoku(sudokuContainer)) {
       alert('¡Buen trabajo!');
       popup.classList.add('hidden');
-      prepararPopupBase();
     } else {
       alert('Síguelo intentando');
     }
   } else {
     popup.classList.add('hidden');
-    prepararPopupBase();
   }
 });
 

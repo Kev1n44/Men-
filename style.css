@@ -30,6 +30,8 @@ h1 {
 }
 
 .menu-actions {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -130,10 +132,6 @@ h1 {
   z-index: 1000;
 }
 
-.hidden {
-  display: none !important;
-}
-
 .popup.hidden {
   display: none;
 }
@@ -151,17 +149,8 @@ h1 {
   overflow-y: auto;       /* Scroll vertical si hay mucho contenido */
 }
 
-.popup-actions {
+#popup-close {
   margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-#popup-close,
-#instructivo-volver {
-  margin-top: 0;
   padding: 10px 20px;
   border: none;
   background-color: #315659;
@@ -170,8 +159,7 @@ h1 {
   cursor: pointer;
 }
 
-#popup-close:hover,
-#instructivo-volver:hover {
+#popup-close:hover {
   background-color: #007acc;
 }
 
@@ -197,25 +185,28 @@ h1 {
   text-decoration: underline;
 }
 
-.popup-content--lectura {
+.popup-content.viendo-instructivo {
   display: flex;
   flex-direction: column;
-  width: 94%;
-  max-width: 520px;
-  height: 92vh;
-  max-height: 92vh;
+  width: 92%;
+  max-width: 480px;
+  height: 90vh;
+  max-height: 90vh;
   overflow: hidden;
 }
 
-.instructivo-frame {
-  display: block;
-  width: 100%;
+.popup-content.viendo-instructivo #instructivo-frame {
   flex: 1 1 auto;
+  width: 100%;
   min-height: 0;
   margin-top: 8px;
-  border: none;
+  border: 0;
   border-radius: 8px;
   background: #f7f4e9;
+}
+
+.popup-content.viendo-instructivo #popup-close {
+  flex: 0 0 auto;
 }
 
 #popup-text {
